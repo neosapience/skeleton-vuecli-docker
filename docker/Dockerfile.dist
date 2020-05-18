@@ -1,0 +1,20 @@
+#-------------------------------------------------------------
+# builder
+#-------------------------------------------------------------
+FROM skeleton-vuecli:env as builder
+COPY ./frontend/app/package.json ./frontend/app/yarn.lock /opt/webapp/app/
+WORKDIR /opt/webapp/app
+RUN yarn install
+
+COPY ./frontend /opt/webapp
+RUN yarn run build
+
+#-------------------------------------------------------------
+# run
+#-------------------------------------------------------------
+FROM nginx:1.15.9-alpine
+COPY ./docker/data/nginx /etc/nginx
+COPY --from=builder /opt/webapp/app/dist /usr/frontend
+
+STOPSIGNAL SIGQUIT
+CMD ["nginx", "-g", "daemon off;"]
