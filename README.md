@@ -1,6 +1,9 @@
 # vuecli skeleton with docker
 
 ## create app
+* copy the code from repo
+* replace to `your own image name` from `skeleton-vuecli`.
+* run below command
 ```bash
 $ make create
 ```
