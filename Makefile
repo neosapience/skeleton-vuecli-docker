@@ -1,8 +1,9 @@
-.PHONY: create install serve sh dist ps exec down ls
+.PHONY: create install serve sh dist ps exec down ls open-browser
 
 name := skeleton-vuecli
 pwd := $(shell pwd)
 version := v0.0.1
+up_url = $(shell docker-compose ps | grep -o '0.0.0.0:[0-9]*->8000/tcp' | sed 's/->8000\/tcp//g')
 
 # don't change the project name
 create:
@@ -24,6 +25,9 @@ up:
 
 ps:
 	@docker-compose ps
+
+open-browser:
+	open -a 'Google Chrome' http://${up_url}
 
 exec:
 	@docker-compose exec workzone bash
