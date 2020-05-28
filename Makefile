@@ -3,7 +3,8 @@
 name := skeleton-vuecli
 pwd := $(shell pwd)
 version := v0.0.1
-up_url = $(shell docker-compose ps | grep -o '0.0.0.0:[0-9]*->8000/tcp' | sed 's/->8000\/tcp//g')
+ui_ip = $(shell docker-compose ps | grep -o '0.0.0.0:[0-9]*->8000/tcp' | sed 's/->8000\/tcp//g')
+devserver_ip = $(shell docker-compose ps | grep -o '0.0.0.0:[0-9]*->8080/tcp' | sed 's/->8080\/tcp//g')
 
 # don't change the project name
 create:
@@ -26,8 +27,11 @@ up:
 ps:
 	@docker-compose ps
 
-open-browser:
-	open -a 'Google Chrome' http://${up_url}
+ui:
+	open -a 'Google Chrome' http://${ui_ip}
+
+dev-server:
+	open -a 'Google Chrome' http://${devserver_ip}
 
 exec:
 	@docker-compose exec workzone bash
